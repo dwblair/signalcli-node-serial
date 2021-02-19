@@ -15,5 +15,8 @@ const Readline = require('@serialport/parser-readline')
 
 const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
 parser.on('data', function (data) {
-    console.log('Data:', data)
+    console.log('Data:', data);
+    if (data=="4") {
+        console.log("bang!");
+    }
   })
