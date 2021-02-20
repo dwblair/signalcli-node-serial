@@ -1,14 +1,7 @@
 # signalcli-node-serial
 
+e.g.:
+
 ```
-signal-cli -u USER send -m "hallo from the cli again!" RECIPIENT
-
-signal-cli -u USER receive
+./looper.sh +18575551212 /dev/ttyUSB0
 ```
-
-## Current status
-
-arduino: v1
-
-node: use looper.sh
-
