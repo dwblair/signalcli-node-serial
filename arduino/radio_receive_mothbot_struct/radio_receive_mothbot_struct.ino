@@ -53,7 +53,7 @@ void setup()
    // delay(1);
   //}
   delay(100);
-
+/*
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
@@ -62,6 +62,7 @@ void setup()
   display.clearDisplay();
 
   testdrawchar2(3);
+  */
   
   //Serial.println("Feather LoRa RX Test!");
 
@@ -101,7 +102,7 @@ void loop()
   if (rf95.available())
   {
     // Should be a message for us now
-    uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+    uint8_t buf[sizeof(Payload)];
     uint8_t len = sizeof(buf);
 
     if (rf95.recv(buf, &len))
@@ -116,9 +117,11 @@ void loop()
        Serial.print("RSSI: ");
       Serial.println(rf95.lastRssi(), DEC);
 
-     theData = *(Payload*)
+     theData = *(Payload*)buf;
       Serial.print(" sender=");
       Serial.print(theData.sender);
+      Serial.print("message=");
+      Serial.print(theData.message);
       
       
       uint8_t data[] = "And hello back to you";
