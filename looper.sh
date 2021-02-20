@@ -1,7 +1,7 @@
 #!/bin/bash
 
 while true;
-do node test_signal_serial.js;
+do node main.js;
 	sleep 10;
 done
 
