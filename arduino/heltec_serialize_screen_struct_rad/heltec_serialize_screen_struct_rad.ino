@@ -20,7 +20,7 @@ char abbrev_message[10];
 typedef struct {
   char sender[13];
   char message[40]; 
-  int timestamp;
+  char timestamp[14];
 } Payload;
 Payload theData;
 
@@ -65,11 +65,11 @@ void loop() {
 
     const char* srce = doc["source"];
     const char* msg = doc["msg"];
-    int timestamp = 1000;
+    const char* ts = doc["timestamp"];
 
     memcpy(theData.sender,srce,13);
     memcpy(theData.message,msg,40);
-    theData.timestamp = timestamp;
+    memcpy(theData.timestamp,ts,14);
 
     memcpy(abbrev_message,msg,10);
     

@@ -44,13 +44,23 @@ function processSignal(item, index) {
     console.log(obj);
     var env = obj.envelope;
     var source = env.source;
+    if (env.hasOwnProperty('dataMessage')) {
+        var msg = env.dataMessage.message;
+        var timestamp = env.dataMessage.timestamp;
+        var outString = '{"source":"'+source+'","timestamp":"'+timestamp+'","msg":"'+msg+'"}'
+        //var outString = "<"+msg+",12,24.7>";
+        console.log(outString);
+        //port.write(outString+"\n");
+        port.write(outString);
+    }
     if (env.hasOwnProperty('syncMessage')) {
     var sync = env.syncMessage;
     if (sync.hasOwnProperty('sentMessage')) {
     var msg = sync.sentMessage.message;
+    var timestamp = sync.sentMessage.timestamp;
     //var outString = source+": "+msg;
     //var outString = "asdlkjasdsdflkjsdflksjdflkjasdfasdfasfsad";
-    var outString = '{"source":"'+source+'", "msg":"'+msg+'"}'
+    var outString = '{"source":"'+source+'","timestamp":"'+timestamp+'","msg":"'+msg+'"}'
     //var outString = "<"+msg+",12,24.7>";
     console.log(outString);
     //port.write(outString+"\n");
