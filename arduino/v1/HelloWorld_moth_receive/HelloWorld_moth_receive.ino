@@ -51,8 +51,8 @@
 #define RFM95_RST 7
 #define RFM95_INT 2
 
-U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);  // Adafruit ESP8266/32u4/ARM Boards + FeatherWing OLED
-
+U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);  // SSD1306 128x32
+//U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // SSD1306 128x64
 
 // End of constructor list
 
@@ -135,16 +135,28 @@ void loop(void) {
       Serial.println("hello");
       theData = *(Payload*)buf;
 
-  
+      int rssi = rf95.lastRssi();
+
+      Serial.print("rssi:");
+      Serial.println(rssi);
+      
+      //u8g2.setFont(u8g2_font_victoriabold8_8r);
+      //u8g2.setFont(u8g2_font_torussansbold8_8r);
+      u8g2.setFont(u8g2_font_nokiafc22_tf);
+      
       Serial.print(" sender=");
       Serial.print(theData.sender);
       u8g2.clearBuffer();          // clear the internal memory
-      u8g2.setFont(u8g2_font_ncenB08_tr); // choose a suitable font
-      u8g2.drawStr(0,10,"from: ");  // write something to the internal memory
-      u8g2.drawStr(40,10,theData.sender);  // write something to the internal memory
-      u8g2.drawStr(0,20,"at: ");  // write something to the internal memory
-      u8g2.drawStr(17,20,theData.timestamp);  // write something to the internal memory
-      u8g2.setFont(u8g2_font_micro_mr); // choose a suitable font
+      //u8g2.setFont(u8g2_font_ncenB08_tr); // choose a suitable font
+      //u8g2.drawStr(0,10,"from: ");  // write something to the internal memory
+      u8g2.drawStr(0,10,theData.timestamp);  // write something to the internal memory
+      //u8g2.setCursor(70, 10);
+      //u8g2.print(rssi);
+      //u8g2.drawStr(20,10,String(rssi));  // write something to the internal memory
+      //u8g2.drawStr(0,20,"at: ");  // write something to the internal memory
+      u8g2.drawStr(0,20,theData.sender);  // write something to the internal memory
+      //u8g2.setFont(u8g2_font_micro_mr); // choose a suitable font
+      
       u8g2.drawStr(0,30,theData.message);  // write something to the internal memory
       u8g2.sendBuffer();   
       /*Serial.print("message=");
