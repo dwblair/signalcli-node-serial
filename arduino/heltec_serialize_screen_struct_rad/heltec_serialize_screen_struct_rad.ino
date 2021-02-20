@@ -19,7 +19,7 @@ char abbrev_message[10];
 
 typedef struct {
   char sender[13];
-  char message[100]; 
+  char message[40]; 
   int timestamp;
 } Payload;
 Payload theData;
@@ -68,7 +68,7 @@ void loop() {
     int timestamp = 1000;
 
     memcpy(theData.sender,srce,13);
-    memcpy(theData.message,msg,100);
+    memcpy(theData.message,msg,40);
     theData.timestamp = timestamp;
 
     memcpy(abbrev_message,msg,10);
