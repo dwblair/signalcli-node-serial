@@ -25,25 +25,41 @@ exec(receive_command, (error, stdout, stderr) => {
         return;
     }
     console.log(`stdout: ${stdout}`);
+    var split_string = stdout.split('\n');
+    console.log('split:',split_string);
     console.log("length:",stdout.length);
     var len = stdout.length;
     if (len>0) {
-    const obj = JSON.parse(stdout);
-    console.log(obj);
-    var env = obj.envelope;
-    var source = env.source;
-    var msg = env.syncMessage.sentMessage.message;
-    var outString = source+": "+msg;
-    //var outString = "<"+msg+",12,24.7>";
-    console.log(outString);
-    //port.write(outString+"\n");
-    port.write("HELLO "+outString+"\n");
+    split_string.forEach(processSignal);
+    }
     port.close(function (err) {
         console.log('port closed', err);
     });
-
-    }
 });
+
+
+function processSignal(item, index) {
+    if (item.length > 2) {
+    const obj = JSON.parse(item);
+    console.log(obj);
+    var env = obj.envelope;
+    var source = env.source;
+    if (env.hasOwnProperty('syncMessage')) {
+    var sync = env.syncMessage;
+    if (sync.hasOwnProperty('sentMessage')) {
+    var msg = sync.sentMessage.message;
+    //var outString = source+": "+msg;
+    //var outString = "asdlkjasdsdflkjsdflksjdflkjasdfasdfasfsad";
+    var outString = '{"source":"'+source+'", "msg":"'+msg+'"}'
+    //var outString = "<"+msg+",12,24.7>";
+    console.log(outString);
+    //port.write(outString+"\n");
+    port.write(outString);
+}
+    }
+}
+}
+
 
 /* const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
 parser.on('data', function (data) {
