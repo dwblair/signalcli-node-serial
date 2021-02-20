@@ -120,9 +120,6 @@ void setup(void) {
 int index = 0;
 
 void loop(void) {
-
- Serial.println("yea");
- delay(1000);
   
 
  if (rf95.available())
@@ -142,7 +139,7 @@ void loop(void) {
       Serial.print(" sender=");
       Serial.print(theData.sender);
       u8g2.clearBuffer();          // clear the internal memory
-      u8g2.drawStr(0,20,theData.sender);  // write something to the internal memory
+      u8g2.drawStr(0,10,theData.sender);  // write something to the internal memory
       u8g2.drawStr(0,30,theData.message);  // write something to the internal memory
       u8g2.sendBuffer();   
       /*Serial.print("message=");
