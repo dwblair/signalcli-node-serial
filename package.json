@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/dwblair/signalcli-node-serial#readme",
   "dependencies": {
-    "serialport": "^9.0.6"
+    "serialport": "^9.0.6",
+    "yargs": "^16.2.0"
   }
 }
