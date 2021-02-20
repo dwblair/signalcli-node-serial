@@ -77,6 +77,8 @@ void loop() {
      u8x8.setCursor(0,0);
      u8x8.print(srce);
      u8x8.setCursor(0,2);
+     u8x8.print(ts);
+     u8x8.setCursor(0,4);
      u8x8.print(abbrev_message);
 
      rf95.send((uint8_t *)&theData, sizeof(theData));
