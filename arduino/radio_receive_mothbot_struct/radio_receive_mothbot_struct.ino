@@ -1,16 +1,16 @@
-#include <U8x8lib.h>
+#include <U8g2lib.h>
 
 #include <SPI.h>
 #include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
 #include <RH_RF95.h>
-#include <ArduinoJson.h> //https://arduinojson.org/v6/doc/installation/
+//#include <ArduinoJson.h> //https://arduinojson.org/v6/doc/installation/
 
 // Radio pins for mothbot
 #define RFM95_CS 8
 #define RFM95_RST 7
 #define RFM95_INT 2
+
+U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);   // pin remapping with ESP8266 HW I2C
 
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 915.0
@@ -19,14 +19,7 @@
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 // Blinky on receipt
-#define LED 5
-
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 32 // OLED display height, in pixels
-
-// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
-#define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+//#define LED 5
 
 typedef struct {
   char sender[13];
@@ -40,29 +33,28 @@ Payload theData;
 void setup()
 {
 
+  u8g2.begin();
+    u8g2.clearBuffer();          // clear the internal memory
+  u8g2.setFont(u8g2_font_ncenB08_tr); // choose a suitable font
+  u8g2.drawStr(0,10,"Hello World!");  // write something to the internal memory
+  u8g2.sendBuffer();          // transfer internal memory to the display
+   delay(1000);
   
-  pinMode(LED, OUTPUT);
+Serial.begin(9600);
+  //while (!Serial) {
+   // delay(1);
+  //}
+  delay(100);
+ 
+  
+  //pinMode(LED, OUTPUT);
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
 
 
    delay(1000);
    
-  Serial.begin(9600);
-  //while (!Serial) {
-   // delay(1);
-  //}
-  delay(100);
-/*
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
-    Serial.println(F("SSD1306 allocation failed"));
-    for(;;); // Don't proceed, loop forever
-  }
-
-  display.clearDisplay();
-
-  testdrawchar2(3);
-  */
+  
   
   //Serial.println("Feather LoRa RX Test!");
 
@@ -110,7 +102,7 @@ void loop()
 
  
       
-      digitalWrite(LED, HIGH);
+      //digitalWrite(LED, HIGH);
       //RH_RF95::printBuffer("Received: ", buf, len);
       Serial.print("Got: ");
       Serial.println((char*)buf);
@@ -128,7 +120,7 @@ void loop()
       rf95.send(data, sizeof(data));
       rf95.waitPacketSent();
       Serial.println("Sent a reply");
-      digitalWrite(LED, LOW);
+      //digitalWrite(LED, LOW);
       
       
     }
@@ -137,20 +129,4 @@ void loop()
       Serial.println("Receive failed");
     }
   }
-}
-
-void testdrawchar2(int number) {
-  display.clearDisplay();
-  display.setTextSize(1);      // Normal 1:1 pixel scale
-  display.setTextColor(SSD1306_WHITE); // Draw white text
-  display.setCursor(0, 0);     // Start at top-left corner
-    //display.cp437(true);         // Use full 256 char 'Code Page 437' font
-  display.println("K30 CO2 Test");
-    display.setTextSize(1);      // Normal 1:1 pixel scale
-  display.println();
-  display.print("PPM: ");
-  display.println(number);
-  display.println();
-  //display.println("MOTHBOT IS GO!");
-    display.display();
 }
