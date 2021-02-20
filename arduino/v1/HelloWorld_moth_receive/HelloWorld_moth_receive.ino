@@ -65,7 +65,7 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 typedef struct {
   char sender[13];
   char message[40]; 
-  int timestamp;
+  char timestamp[14];
 } Payload;
 Payload theData;
 
@@ -114,7 +114,7 @@ void setup(void) {
   u8g2.drawStr(0,10,"Starting up!");  // write something to the internal memory
   u8g2.sendBuffer();          // transfer internal memory to the display
   delay(1000);  
-  
+
 }
 
 int index = 0;
@@ -139,7 +139,12 @@ void loop(void) {
       Serial.print(" sender=");
       Serial.print(theData.sender);
       u8g2.clearBuffer();          // clear the internal memory
-      u8g2.drawStr(0,10,theData.sender);  // write something to the internal memory
+      u8g2.setFont(u8g2_font_ncenB08_tr); // choose a suitable font
+      u8g2.drawStr(0,10,"from: ");  // write something to the internal memory
+      u8g2.drawStr(40,10,theData.sender);  // write something to the internal memory
+      u8g2.drawStr(0,20,"at: ");  // write something to the internal memory
+      u8g2.drawStr(17,20,theData.timestamp);  // write something to the internal memory
+      u8g2.setFont(u8g2_font_micro_mr); // choose a suitable font
       u8g2.drawStr(0,30,theData.message);  // write something to the internal memory
       u8g2.sendBuffer();   
       /*Serial.print("message=");
