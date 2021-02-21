@@ -12,12 +12,13 @@
 
 #include <RH_RF95.h>
 
-// Radio pins for mothbot
+// Radio pins for feather M0
 #define RFM95_CS 8
-#define RFM95_RST 7
-#define RFM95_INT 2
+#define RFM95_RST 4
+#define RFM95_INT 3
 
-U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);  // SSD1306 128x32
+//U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);  // SSD1306 128x32
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 #define RF95_FREQ 915.0
 
