@@ -7,51 +7,41 @@ const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
 const { exec } = require("child_process");
 
-function getSignalMessagesAndPushToSerialPort(unix_timestamp) {
+function getSignalMessagesAndPushToSerialPort() {
 
-}
-
-if(argv.user && argv.port) {
-    console.log(argv.user);
-
-const port = new SerialPort(argv.port, function (err) {
-    if (err) {
-      return console.log('Error: ', err.message)
-    }
-
-    var user = argv.user;
-
-var receive_command = "signal-cli -u "+user+" -o json receive";
-
-exec(receive_command, (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-    }
-    console.log(`stdout: ${stdout}`);
-    var split_string = stdout.split('\n');
-    console.log('split:',split_string);
-    console.log("length:",stdout.length);
-    var len = stdout.length;
-    if (len>0) {
-    split_string.forEach(processSignal);
-    }
-    port.close(function (err) {
-        console.log('port closed', err);
+    const port = new SerialPort(argv.port, function (err) {
+        if (err) {
+          return console.log('Error: ', err.message)
+        }
+    
+        var user = argv.user;
+    
+    var receive_command = "signal-cli -u "+user+" -o json receive";
+    
+    exec(receive_command, (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+        var split_string = stdout.split('\n');
+        console.log('split:',split_string);
+        console.log("length:",stdout.length);
+        var len = stdout.length;
+        if (len>0) {
+        split_string.forEach(processSignal);
+        }
+        port.close(function (err) {
+            console.log('port closed', err);
+        });
     });
-});
-
-  });
-
+    
+      });
 }
-else {
-    console.log("need to specify --user and --port");
-}
-
 
 function getFormattedDate(unix_timestamp) {
 
@@ -126,15 +116,10 @@ function processSignal(item, index) {
 }
 }
 
-
-/* const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
-parser.on('data', function (data) {
-console.log('Data:', data);
-if (data=="4") {
-    console.log("bang!");
+if(argv.user && argv.port) {
+    console.log("running in loop ...");
+    setInterval(getSignalMessagesAndPushToSerialPort, 10000); // run every 5 seconds
 }
-});
- */
-
-
-
+else {
+    console.log("need to specify --user and --port");
+}
