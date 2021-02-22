@@ -150,7 +150,7 @@ void showPartialUpdate(int line, String content)
 {
   uint16_t box_x = 10;
   uint16_t box_y = 18*line;
-  uint16_t box_w = 170;
+  uint16_t box_w = 300;
   uint16_t box_h = 17;
   uint16_t cursor_y = box_y + 16;
   display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
