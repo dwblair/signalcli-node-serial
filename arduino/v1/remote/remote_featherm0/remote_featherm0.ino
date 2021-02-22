@@ -91,9 +91,9 @@ void loop(void) {
       Serial.print(" sender=");
       Serial.print(theData.sender);
       u8g2.clearBuffer();          // clear the internal memory
-      u8g2.drawStr(0,10,theData.timestamp);  // write something to the internal memory
-      u8g2.drawStr(0,20,theData.sender);  // write something to the internal memory
-      u8g2.drawStr(0,30,theData.message);  // write something to the internal memory
+      u8g2.drawStr(0,30,theData.timestamp);  // write something to the internal memory
+      u8g2.drawStr(0,40,theData.sender);  // write something to the internal memory
+      u8g2.drawStr(0,50,theData.message);  // write something to the internal memory
       u8g2.sendBuffer();   
 
     }
