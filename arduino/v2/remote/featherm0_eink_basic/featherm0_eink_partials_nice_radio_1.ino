@@ -134,7 +134,7 @@ void loop()
       showPartialUpdate(line,String(theData[msg%max_messages].timestamp)+" | "+String(theData[msg%max_messages].sender)); 
       line = line + 1;
       display.setFont(&FreeMono9pt7b);
-      showPartialUpdate(line,"-> "+String(theData[msg%max_messages].message));
+      showPartialUpdate(line,"-> "+String(theData[msg%max_messages].message).substring(0,20));
       line = line+1; 
       display.update();  
       if (msg%max_messages==0) line=0;
