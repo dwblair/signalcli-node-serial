@@ -44,4 +44,8 @@ Data currently flows in three stages (corresponding to the hardware systems list
 - The 'gateway' microcontroller must be capable of sending / receiving data over USB / serial (typical for most micros these days that have a microUSB connector), and has LoRa radio attached (I'm currently using a Heltec Wifi LoRa 32 v2 for the gateway, but e.g. a Feather M0 LoRa orsseveral other hardware boards should work).
 - The 'remote' micro has a LoRa radio and a screen (I'm using a Feather M0 LoRa with an SSD1306 124x65 OLED).
 
+## Pin connections
+
+Note that the e-ink uses the SPI bus; in the code, they're not mentioned, but you'll need to connect SCK to the clock pin on the e-ink, and MOSI to the DI pin on the e-ink.  
+
 
